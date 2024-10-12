@@ -1,0 +1,72 @@
+@mixin flex-cc{
+    display: flex;
+    align-items: center;
+}
+
+.scanner{
+    // border: 1px solid;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    img{
+        width: 200px;
+    }
+
+   .file-upload-wrapper{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    span{
+        height: 65px;
+        @include flex-cc();
+        gap: 5px;
+        padding: 10px;
+        margin-bottom: 5px;
+
+        .file-name{
+
+            @include flex-cc();
+            flex-direction: column;
+            gap: 10px;
+
+            div{
+
+                @include flex-cc();
+                gap: 8px;
+
+            }
+        }
+    }
+
+    .file-input{
+        display: none;
+    }
+
+    label{
+        // border: 1px solid;
+        padding: 15px;
+        border-radius: 12px;
+        background-color: rgb(238, 237, 237);
+        cursor: pointer;
+        @include flex-cc();
+        gap: 5px;
+    }
+
+    button{
+        @include flex-cc();
+        gap: 5px;
+    }
+
+   }
+
+}
+
+.file-remove{
+    font-size: 1.1rem;
+    &:hover{
+        cursor: pointer;
+        scale: 1.05;
+    }
+}

@@ -1,0 +1,13 @@
+.custom-loader{
+    border: 8px solid rgb(207, 203, 203);
+    border-radius: 50%;
+    border-top: 8.5px solid rgb(28, 46, 55);
+    animation: loaderRotate 1.5s infinite ease-in-out;
+}
+
+@keyframes loaderRotate{
+    to {
+        transform: rotate(360deg);
+        -webkit-transform: rotate(360deg);
+    }
+}

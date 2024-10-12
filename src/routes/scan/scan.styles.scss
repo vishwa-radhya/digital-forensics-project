@@ -1,0 +1,23 @@
+.scan-page{
+    // border: 1px solid;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    // position: relative;
+    gap: 20px;
+    height: 91vh;
+    p{
+        font-size: 2rem;
+    }
+    button{
+        padding: 15px;
+        border: none;
+        font-size: 1.15rem;
+        border-radius: 10px;
+        margin-top: auto;
+
+        &:disabled{
+            cursor: not-allowed;
+        }
+    }
+}
