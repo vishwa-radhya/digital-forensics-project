@@ -8,6 +8,7 @@ import InProgress from '../../assets/progress.svg';
 import CleanSvg from '../../assets/safe.svg';
 import UnSafeSvg from '../../assets/unsafe.svg';
 import PropTypes from 'prop-types';
+import { useNavigate } from 'react-router-dom';
 
 const ScanDialog = ({handleSetIsScanDialogOpen,scanResponse,fileName})=>{
 
@@ -16,14 +17,41 @@ const ScanDialog = ({handleSetIsScanDialogOpen,scanResponse,fileName})=>{
     const [id,setId]=useState(null);
     const [showLoader,setShowLoader]=useState(false);
     const [isAnalyzeFinished,setIsAnalyzeFinished]=useState(false);
+    const navigateRouter = useNavigate();
 
-    // console.log(scanResponse)
-    // (function(){
-    //     console.log(scanResponse)
-    // })()
+
+    const handleUnfinishedScanning=async()=>{
+        if(id){
+            console.log('function for unfinished scanning:',id)
+            const endPoint = `quick-scan/${id}`
+            try{
+                const response = await fetch(`http://localhost:5000/api/sample?endPoint=${endPoint}`)
+                const data = await response.json()
+                if(data){
+                    const scannerProgress=data["scanners_v2"];        
+                    if(scannerProgress){
+                        setProgress({cml:scannerProgress["crowdstrike_ml"].progress || '0',mtd:scannerProgress["metadefender"].progress || "0"})
+                        setStatus(scannerProgress["metadefender"].status)
+                    }
+                    if(data?.finished){
+                        console.log('finish')
+                        setIsAnalyzeFinished(true)
+                        return;
+                    }else{
+                        setTimeout(()=>{
+                            handleUnfinishedScanning()
+                        },5000)
+                    }
+                }
+            }catch(e){
+                console.error('error refecthing scanning data',e)
+            }
+            
+        }
+    }
 
     useEffect(()=>{
-        console.log(scanResponse)
+        // console.log(scanResponse)
         const handleScanResponse =async()=>{
             setShowLoader(true);
         if(scanResponse){
@@ -38,6 +66,7 @@ const ScanDialog = ({handleSetIsScanDialogOpen,scanResponse,fileName})=>{
                 setIsAnalyzeFinished(true)
             }else{
                 setIsAnalyzeFinished(false);
+                handleUnfinishedScanning()
             }
             }catch(e){
                 console.error("error setting ui",e)
@@ -83,16 +112,19 @@ const ScanDialog = ({handleSetIsScanDialogOpen,scanResponse,fileName})=>{
             
         </div>
         <div className='progress-div'>
-           {isAnalyzeFinished && <Loader loaderWidth={25} bdColor='gray' />}
+           {!isAnalyzeFinished && <Loader loaderWidth={25} bdColor='gray' />}
             {!showLoader ? "Analyzing File" : 'Processing'}
         </div>
-        <button disabled={!isAnalyzeFinished} >Scan Summary</button>
-        {!isAnalyzeFinished &&  <span>*File Analysis is completed and it is a {status === "clean" ? "CLEAN" :'HARMFUL'} file </span>}
+        <button disabled={!isAnalyzeFinished} onClick={()=>navigateRouter('summary-report')} >Scan Summary</button>
+        {isAnalyzeFinished &&  <span className='final-span'>*File Analysis is completed and it is a {status === "clean" ? "CLEAN" :'HARMFUL'} file </span>}
         </div>
         </div>
     )
 }
 ScanDialog.propTypes={
     scanResponse:PropTypes.object,
+    handleSetIsScanDialogOpen:PropTypes.func,
+    fileName:PropTypes.string,
+
 }
 export default ScanDialog;

@@ -26,3 +26,15 @@ button{
     z-index: 3;
     align-items: center;
 }
+.file-input{
+  display: none;
+}
+
+@keyframes slide{
+  from{
+      transform: translateY(-10px);
+  }
+  to{
+      transform: translateY(0px);
+  }
+}

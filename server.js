@@ -44,13 +44,13 @@ app.post('/api/submit',upload.single('file'),async (req,res)=>{
     return res.status(400).json({message:'File is required'});
   }
   try{
-    console.log('file received',req.file)
+    // console.log('file received',req.file)
     const form = new FormData();
     form.append('scan_type',scan_type || 'all');
     form.append('file',fs.createReadStream(req.file.path),req.file.originalname);
     form.append('comment',comment || '');
     form.append('submit_name',submit_name || '');
-    console.log('submitting to hybrid analysis');
+    // console.log('submitting to hybrid analysis');
 
     const response = await axios.post(`${BASE_URL}/quick-scan/file`,form,{
       headers:{

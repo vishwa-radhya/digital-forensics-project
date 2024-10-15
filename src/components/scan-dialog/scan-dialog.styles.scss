@@ -9,6 +9,7 @@
     flex-direction: column;
     box-shadow: 2px 2px 5px rgb(122, 120, 120);
     gap: 5px;
+    animation: slide 0.2s ease;
     .top-div{
         // border: 1px solid;
         width: 100%;
@@ -79,6 +80,9 @@
                 justify-content: center;
             }
         }
+        & > *:nth-child(2){
+            flex: 1;
+        }
     }
     .progress-div{
         // border: 1px solid;
@@ -95,5 +99,9 @@
         align-self: center;
         background-color: rgb(218, 216, 216);
         // box-shadow: 2px 2px 2px gray;
+    }
+    .final-span{
+        padding: 5px;
+        text-align: center;
     }
 }

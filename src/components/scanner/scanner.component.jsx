@@ -6,7 +6,6 @@ import Loader from '../loader/loader.component';
 import { FaFileUpload } from 'react-icons/fa';
 import { CgFileRemove } from 'react-icons/cg';
 import PropTypes from 'prop-types';
-// import ScanBtn from '../scan-btn/scan-btn.component';
 
 const Scanner=({children,handleSetFile})=>{
 
@@ -40,6 +39,7 @@ const Scanner=({children,handleSetFile})=>{
     const fileRemoval=()=>{
         setIsFileUploaded(false);
         setFileName("");
+        handleSetFile({});
     }
 
     return(
@@ -55,5 +55,6 @@ const Scanner=({children,handleSetFile})=>{
 }
 Scanner.propTypes={
     children:PropTypes.node,
+    handleSetFile:PropTypes.func,
 }
 export default Scanner;

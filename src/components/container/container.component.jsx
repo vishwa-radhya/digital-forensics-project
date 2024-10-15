@@ -1,35 +1,23 @@
-// import Loader from "../loader/loader.component";
 import { Route, Routes } from "react-router-dom";
 import Navbar from "../navbar/navbar.component";
 import HeroSection from "../hero-section/hero-section.component";
 import Scan from "../../routes/scan/scan.component";
+import SummaryReport from "../../routes/summary-report/summary-report.component";
+import { useState } from "react";
 
 const Container=()=>{
 
-    // const endPoint = 'system/environments'
-    // const endPoint2='system/version'
-
-    // function onclickHandle(){
-    //     console.log('hit');
-
-    //     fetch(`http://localhost:5000/api/sample?endPoint=${endPoint2}`)
-    //     .then(resp=>resp.json())
-    //     .then(data=>console.log(data))
-    //     .catch(e=>console.error('Error:',e))
-        
-    // }
-
+    const [file,setFile]=useState({});
+    
     return(
         <div className="container">
             <Routes>
                 <Route path="/" element={<Navbar/>}>
                     <Route index element={<HeroSection/>} />
-                    <Route path="scan" element={<Scan/>} />
+                    <Route path="scan" element={<Scan file={file} setFile={setFile} />} />
+                    <Route path="summary-report" element={<SummaryReport file={file} />} />
                 </Route>
-
             </Routes>
-            {/* <button onClick={onclickHandle}>click</button> */}
-            {/* <Loader loaderWidth={200}/> */}
         </div>
     )
 }

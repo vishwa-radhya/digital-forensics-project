@@ -1,0 +1,63 @@
+.summary-report-div{
+    // border: 1px solid;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    button{
+        padding: 15px;
+        border: none;
+        font-size: 1.15rem;
+        border-radius: 10px;
+        margin-top: auto;
+        display: flex;align-items: center;justify-content: center;
+        gap: 10px;
+        margin-left: -25px;
+    }
+    .env-div{
+        width: 500px;
+        position: absolute;
+        z-index: 3;
+        background-color: whitesmoke;
+        top: 50px;
+        padding: 20px;
+        border-radius: 10px;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        align-items: center;
+        box-shadow: 2px 2px 4px rgb(166, 163, 163);
+        animation: slide 0.2s ease;
+        p{
+            font-size: 1.5rem;
+            text-align: center;
+            padding: 10px;
+            border-bottom: 1px solid;
+        }
+
+        .env-div-main{
+            display: grid;
+            grid-template-columns: repeat(4,1fr);
+            gap: 5px;
+            div{
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 10px;
+                padding: 10px;
+                border-radius: 8px;
+                cursor: pointer;
+                svg{
+                    font-size: 3.4rem;
+                }
+                span{
+                    text-align: center;
+                }
+            }
+        }
+        button{
+            background-color: black;
+            color: white;
+        }
+    }
+}

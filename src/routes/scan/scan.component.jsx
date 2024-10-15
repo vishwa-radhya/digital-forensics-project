@@ -3,14 +3,13 @@ import Scanner from '../../components/scanner/scanner.component';
 import ScanBtn from '../../components/scan-btn/scan-btn.component';
 import {  useState } from 'react';
 import ScanDialog from '../../components/scan-dialog/scan-dialog.component';
+import PropTypes from 'prop-types';
 
-const Scan=()=>{
+const Scan=({file,setFile})=>{
     const [isScanDialogOpen,setIsScanDialogOpen]=useState(false);
-    const [file,setFile]=useState({});
+    // const [file,setFile]=useState({});
     const [scanResponse,setScanResponse]=useState({});
 
-    // const [isSummaryAvailable,setIsSummaryAvailable]=useState(false);
-    // console.log(file)
 
     const handleSetIsScanDialogOpen=(bool)=>{
         setIsScanDialogOpen(bool);
@@ -24,15 +23,18 @@ const Scan=()=>{
         setScanResponse(resp);
     }
 
-    // console.log(file)
     return(
         <div className='scan-page'>
-            <p>Unknown Title should embed here</p>
+            <p>Upload file for analysis</p>
             <Scanner handleSetFile={handleSetFile} >
                 <ScanBtn handleSetIsScanDialogOpen={handleSetIsScanDialogOpen} fileForAnalysis={file} handleSetScanResponse={handleSetScanResponse} />
             </Scanner>
-            {!isScanDialogOpen && <ScanDialog handleSetIsScanDialogOpen={handleSetIsScanDialogOpen} scanResponse={scanResponse} fileName={file.name} />}
+            {isScanDialogOpen && <ScanDialog handleSetIsScanDialogOpen={handleSetIsScanDialogOpen} scanResponse={scanResponse} fileName={file.name} />}
         </div>
     )
+}
+Scan.propTypes={
+    file:PropTypes.object,
+    setFile:PropTypes.func,
 }
 export default Scan;

@@ -1,9 +1,8 @@
 import axios from 'axios';
 import { FaPlay } from 'react-icons/fa6';
+import PropTypes from 'prop-types';
 
 const ScanBtn = ({handleSetIsScanDialogOpen,fileForAnalysis,handleSetScanResponse})=>{
-
-
 
     const handleFileSubmission=async()=>{
         if(!fileForAnalysis) return;
@@ -30,5 +29,10 @@ const ScanBtn = ({handleSetIsScanDialogOpen,fileForAnalysis,handleSetScanRespons
             handleSetIsScanDialogOpen(true)
             }}><FaPlay/> Start Scan</button>
     )
+}
+ScanBtn.propTypes={
+    handleSetIsScanDialogOpen:PropTypes.func,
+    fileForAnalysis:PropTypes.object,
+    handleSetScanResponse:PropTypes.func,
 }
 export default ScanBtn;
