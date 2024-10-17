@@ -1,13 +1,14 @@
-import { useContext } from 'react';
+import { useContext, useEffect } from 'react';
 import './report-tile.styles.scss';
 import { ReportContext } from '../../contexts/report-context';
 import ReportTileImg from '../../assets/report-document-file-svgrepo-com.svg';
 import PropTypes from 'prop-types';
+import { ErrorBoundary } from 'react-error-boundary';
 
 const ReportTile=({jobId})=>{
 
     const {summaryReport,handleSetSummaryReport}=useContext(ReportContext);
-    // console.log("summaryReport:",summaryReport)
+    console.log("summaryReport:",summaryReport)
 
     const fetchUnFinishedReport=async()=>{
         console.log("unfinished report fetching")
@@ -35,15 +36,22 @@ const ReportTile=({jobId})=>{
         }
     }
 
+    useEffect(()=>{
+      if(summaryReport.state === "IN_PROGRESS"){
+        fetchUnFinishedReport()
+      }
+    })
+
 
     return(
+      <ErrorBoundary fallback={<p>Something Went Wrong Cant Display Report</p>}>
         <div className='report-tile-div'>
         <h3>Summary Report</h3>
             {!Object.keys(summaryReport).length ? <div className='no-report'>
                 <img src={ReportTileImg} />
                 <p>Nothing Yet!</p>
             </div> : <div className='report'>
-                {summaryReport.state === "IN_PROGRESS" ? fetchUnFinishedReport() : <div className='summary-report-main'>
+                 <div className='summary-report-main'>
         <table>
           <tr>
             <th>Key</th>
@@ -92,15 +100,15 @@ const ReportTile=({jobId})=>{
           </tr>
           <tr>
             <td>File Analysis</td>
-            <td className='f1'> {summaryReport?.file_metadata?.file_analysis.map(e=>{
-              return <tr key={e}><td>{e}</td></tr>
+            <td className='f1'> {summaryReport?.file_metadata?.file_analysis?.map((e,i)=>{
+              return <tr key={i}><td>{e}</td></tr>
             })} </td>
           </tr>
           <tr>
             <td>Mitre Attacks</td>
             <td className='m1'>
-              {summaryReport?.mitre_attcks?.slice(0,10).map(c=>{
-                return <tr key={c.tactic}>
+              {summaryReport?.mitre_attcks?.slice(0,10).map((c,i)=>{
+                return <tr key={`${c.tactic}-${i}`}>
                   <tr>
                     <td>Tactic</td>
                     <td>{c.tactic}</td>
@@ -136,8 +144,8 @@ const ReportTile=({jobId})=>{
           <tr>
             <td>Signatures</td>
             <td className='s1'>
-              {summaryReport?.signatures.slice(0,15).map((c,i)=>{
-                return <tr key={i}>
+              {summaryReport?.signatures?.slice(0,15).map((c,i)=>{
+                return <tr key={`${c.name}-${i}`}>
                   <tr>
                     <td>Threat Level</td>
                     <td>{c.threat_level}</td>
@@ -159,9 +167,10 @@ const ReportTile=({jobId})=>{
             </td>
           </tr>
         </table>
-                </div> }
+                </div> 
             </div>}
         </div>
+        </ErrorBoundary>
     )
 }
 ReportTile.propTypes={
