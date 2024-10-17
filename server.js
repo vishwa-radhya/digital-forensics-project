@@ -70,6 +70,34 @@ app.post('/api/submit',upload.single('file'),async (req,res)=>{
   }
 })
 
+app.post('/api/report-submit',upload.single('file'),async (req,res)=>{
+  const {envId}=req.body;
+  if(!req.file){
+    return res.status(400).json({message:'File is required in report analysis'});
+  }
+  try{
+
+    const form = new FormData();
+      form.append('file',fs.createReadStream(req.file.path),req.file.originalname);
+      form.append('environment_id',envId || 100);
+
+      const response = await axios.post(`${BASE_URL}/submit/file`,form,{
+        headers:{
+        'accept':'application/json',
+        'api-key':API_KEY,
+        ...form.getHeaders(),
+      }
+      })
+      fs.unlinkSync(req.file.path)
+
+      res.json(response.data)
+
+  }catch(err){
+    console.error('Error Submitting file for report:',err.message);
+    res.status(500).json({message:'Error Submitting file to hybrid analysis api for report'})
+  }
+})
+
 // Start the server
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {

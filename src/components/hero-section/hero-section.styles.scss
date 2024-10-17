@@ -52,3 +52,18 @@
         }
     }
 }
+a{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 1.1rem;
+    text-decoration: none;
+    margin-top: 20px;
+    color: black;
+    svg{
+        font-size: 1.6rem;
+    }
+    &:hover{
+        text-decoration: underline;
+    }
+}
