@@ -36,11 +36,11 @@ const ReportTile=({jobId})=>{
         }
     }
 
-    useEffect(()=>{
-      if(summaryReport.state === "IN_PROGRESS"){
-        fetchUnFinishedReport()
+    useEffect(() => {
+      if (summaryReport.state === "IN_PROGRESS") {
+          fetchUnFinishedReport();
       }
-    })
+  }, []);
 
 
     return(
